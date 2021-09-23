@@ -1,0 +1,124 @@
+var carouselItemsLength = 0;
+var carouselItemWidth = 200;
+var numberItemsShown = 5;
+var carouselTouchStart = {'x':0,'y':0};
+var swipeDirection;
+var horizontalDistanceThreshold = 30;
+var horizontalDistance;
+
+$(document).ready(function() {	
+	if( $('.custom-carousel') ) {
+		carouselItemsLength = $('.custom-carousel .col-lg-5').length;
+		carouselItemWidth = $('.custom-carousel .custom-viewarea .col-lg-5:first').width();
+		numberItemsShown = $('.custom-carousel').width()/carouselItemWidth;
+		numberItemsShown = parseInt(numberItemsShown);
+		
+		$(".custom-carousel .custom-viewarea a").removeClass("active");
+		if ($(".custom-carousel .custom-viewarea a").length > 0) {
+			$($(".custom-carousel .custom-viewarea a")[0]).addClass("active");
+		}
+		
+		$(".custom-carousel .custom-viewarea a").click(function() {
+			$(".custom-carousel a").removeClass("active");
+			$(this).addClass("active");
+			$('.section-container section.active').removeClass("active");
+			$('.section-container section#'+$(this).attr('targetSection')).addClass("active");
+		});
+		
+		$('.custom-carousel .carousel-navigation .custom-prev').click(function() {
+			slidePrev();				
+		});
+		
+		$('.custom-carousel .carousel-navigation .custom-next').click(function() {
+			slideNext();				
+		});
+		
+		showHideNavArrow();
+		
+		$('#lifestyleTab .custom-viewarea').on("touchstart",function(e){
+			if (!e.touches) { e = e.originalEvent; }
+			carouselTouchStart.x = e.touches[0].pageX;
+			carouselTouchStart.y = e.touches[0].pageY;
+			e.stopPropagation();			 
+		});
+		
+		$('#lifestyleTab .custom-viewarea').on("touchmove",function(e){
+			if (!e.touches) { e = e.originalEvent; }
+			// Ignore pinch/zoom events
+			if(e.touches.length > 1 || e.scale && e.scale !== 1) return;
+
+			horizontalDistance = e.touches[0].pageX - carouselTouchStart.x;
+			if (horizontalDistance < 0) {
+				swipeDirection = 'next';
+			} else {
+				swipeDirection = 'prev';
+			}
+			e.stopPropagation();			 
+		});
+		
+		$('#lifestyleTab .custom-viewarea').on("touchend",function(e){
+			if( swipeDirection && Math.abs(horizontalDistance) > horizontalDistanceThreshold ) {
+				if( swipeDirection === 'next' ) {
+					slideNext();
+				} else {
+					slidePrev();
+				}
+			}
+			e.stopPropagation();			 
+		});		
+	}
+});
+
+function showHideNavArrow() {
+	var currentCarousel = $(".custom-carousel").attr("currentIndex");
+	var maxIndex = carouselItemsLength - numberItemsShown;
+	
+	if( currentCarousel && currentCarousel <= 0 ) {
+		$('.custom-carousel .custom-prev').css('visibility','hidden');
+	} else {
+		$('.custom-carousel .custom-prev').css('visibility','visible');				
+	}
+	
+	if( currentCarousel && currentCarousel >= maxIndex ) {
+		$('.custom-carousel .custom-next').css('visibility','hidden');
+	} else {
+		$('.custom-carousel .custom-next').css('visibility','visible');				
+	}
+}
+			
+function slidePrev() {
+	var currentCarousel = $(".custom-carousel").attr("currentIndex");
+	var marginAdjustment = {'margin-left':'+='+carouselItemWidth+'px'};
+	
+	if( currentCarousel ) {
+		currentCarousel = parseInt(currentCarousel);
+		if( currentCarousel > 0 ) {
+			$('.custom-carousel .custom-viewarea').animate(
+				marginAdjustment,1000, function(){
+			});
+			
+			currentCarousel -= 1;
+			$(".custom-carousel").attr("currentIndex",currentCarousel);
+			showHideNavArrow();
+		}
+	}
+}
+
+function slideNext() {
+	var currentCarousel = $(".custom-carousel").attr("currentIndex");
+	var marginAdjustment = {'margin-left':'-='+carouselItemWidth+'px'};
+	var maxIndex = carouselItemsLength - numberItemsShown;
+	
+	if( currentCarousel ) {
+		currentCarousel = parseInt(currentCarousel);
+		if( currentCarousel < maxIndex ) {
+			$('.custom-carousel .custom-viewarea').animate(
+				marginAdjustment,1000, function(){
+			});
+			
+			currentCarousel += 1;
+			$(".custom-carousel").attr("currentIndex",currentCarousel);
+			showHideNavArrow();
+		}
+	}
+}

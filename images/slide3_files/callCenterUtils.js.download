@@ -1,0 +1,589 @@
+jQuery.callCenterUtils = (function($) {
+	  //holds URLs
+    var _ccAjaxURLs = {};
+    if( window.hpStoreUtils && typeof(hpStoreUtils.getCallCenterUrls) == 'function' ) {
+    	_ccAjaxURLs = hpStoreUtils.getCallCenterUrls();
+    }
+    
+    //holds default parameters for AJAX call
+    var _ccSharedParams = {};
+    if( window.hpStoreUtils && typeof(hpStoreUtils.getStoreConfig) == 'function' ){
+    	_ccSharedParams = hpStoreUtils.getStoreConfig();
+    }
+    
+	var _isEmptyString = function (s) {
+		return (!s || /^\s*$/.test(s));
+	};
+	
+	var _showProgress = function () {
+		$('#loadingOverlay').removeClass('hide');
+	};
+	
+	var _hideProgress = function () {
+		$('#loadingOverlay').addClass('hide');
+	};
+		
+	var _toggleError = function ($ele, setErr, errMsg) {
+		if (setErr) {
+			$ele.siblings('.csrErrMsg').text(errMsg).removeClass('hideComp');
+			$ele.addClass('errorstate');
+		} else {
+			$ele.siblings('.csrErrMsg').text('').addClass('hideComp');
+			$ele.removeClass('errorstate');
+		}
+	};
+	
+	var _toggleMainError = function (itemId, usage, setErr, errMsg) {
+		if (setErr) {
+			$('#csrErr' + (itemId ? itemId : '') + usage).text(errMsg).removeClass('hideComp');
+		} else {
+			$('#csrErr' + (itemId ? itemId : '') + usage).text('').addClass('hideComp');
+		}
+	};
+	
+    var _resetSendEmailQuote = function() {
+        $('#emailTo').removeClass('error');
+        $('#emailQuoteMessage').text("");
+    };
+
+	var _csrSetBDText = function (newTxt) {
+		$('#csrDiscReason').data('bdcode', newTxt);
+		var $option = $('#csrDiscReason option[value="BigDeals"]');
+		var txt = $option.text();
+		txt = txt.substring(0, txt.indexOf(' - '));
+		txt = txt + ' - ' + newTxt;
+		$option.text(txt);
+	};
+	
+	var _getCSRDisc = function ($this) {
+		var discPerc = $this.val().trim();
+		if (isNaN(discPerc)) {
+			_toggleError($this, true, 'Enter a valid discount');
+			$this.focus();
+			return null;
+		}
+		return Math.abs(parseFloat(discPerc));
+	};
+	
+	var _getCSRReason = function($ele, order) {
+		var $this = $('#csrDiscReason');
+		var reasonCode = $this.val();
+		if (!reasonCode) {
+			_toggleError($ele, true, 'Select a reason for giving this discount');
+			reasonCode = null;
+		}
+		var bdCode = $this.data('bdcode');
+		if (order && reasonCode == 'BigDeals') {
+			_toggleError($ele, true, 'Big Deals: Discounts only at Item level');
+			reasonCode = null;
+		} else if (reasonCode == 'BigDeals' && !bdCode) {
+			_toggleError($ele, true, 'Invalid big deal code');
+			reasonCode = null;
+		}
+		if (!reasonCode && order) {
+			$this.addClass('errorstate');
+			$this.focus();
+		}
+		return reasonCode; 
+	};
+	
+	var _isCSRDiscValid = function (discLimit, discPerc, usage, itemId) {
+		var $this = $('#csrLoginBox');
+		$this.data('disc', discPerc);
+		$this.data('item', itemId);
+		$this.data('usage', usage);
+		var reasonCode = $('#csrDiscReason').val().trim();
+		var nDiscLimit = (discLimit == null || discLimit == '' || isNaN(discLimit)) ? 0 : parseFloat(discLimit);
+		if ((discPerc > nDiscLimit && (_isEmptyString($this.find('#csrLogonId').val()) || _isEmptyString($this.find('#csrPassword').val()))) || (reasonCode != null && reasonCode == 'BigDeals')) {
+			$this.data('limit', discPerc);
+			$this.data('reason', reasonCode);
+			if (reasonCode != null && reasonCode == 'BigDeals') {
+				$this.find('.headingarea').text($this.data('bdhead'));
+			} else {
+				var txtLimit = (usage == '-7') ? WCParamJS.CurrencySymbolToFormat + discLimit : discLimit + '%';
+				$this.find('.headingarea').text($this.data('header').replace('DISC_LIMIT', txtLimit));
+			}
+			setTimeout(function () {
+				$this.foundation('reveal', 'open');
+			}, 200);
+			return false;
+		}
+		return true;
+	};
+	
+	var _getDiscLimit =function ($this) {
+		var subtotal = $('#priceLimit').val();
+		subtotal = (subtotal == null || subtotal == '' || isNaN(subtotal)) ? 0 : parseFloat(subtotal);
+		return (subtotal > 1000) ? $this.data('limit2') : $this.data('limit1');
+	};
+
+	var _csrReason = function (itemId) {
+		$('#csrReasonBox').data('item', itemId);
+		$('#csrItemReason').html($('#csrDiscReason').html());
+		$('#csrItemReason').val('');
+		$('#csrReasonBox').foundation('reveal', 'open');
+	};
+	
+	var _csrAuthenticate = function ($this, $user, $pwd) {
+		_toggleMainError('Login', '', false, '');
+		var params = {};
+		params.logonId = $user.val().trim();
+		params.password = $pwd.val().trim();
+		params.usageId = $this.data('usage');
+		params.discPerc = $this.data('disc');
+		params.orderId = $('#orderId').val();
+		params.reasonCode = $this.data('reason');
+		_showProgress();
+		hpStoreUtils.ajax(_ccAjaxURLs.csrDiscApporveUrl, 'POST', $.extend(params, _ccSharedParams),
+			function(data, status, jqXHR) {
+				data = data.replace('/*', '').replace('*/', '').trim();
+				var response = JSON.parse(data);
+				if (response.errorCode) {
+					_toggleMainError('Login', '', true, response.errorMessage);
+					_hideProgress();
+				} else {
+					$this.foundation('reveal', 'close');			
+					_csrDiscSubmit($this.data('disc'), $this.data('item'), $this.data('usage'));
+				}
+			},
+			function(jqXHR, status, err) {
+				console.error('Unable to authenticate approver : ' + err);
+				$pwd.val('');
+				_toggleMainError('Login', '', true, err);
+				_hideProgress();
+			},
+			true
+		);
+	};
+
+	var _csrDiscSubmit = function (discPerc, itemId, usageId) {
+		_toggleMainError(itemId, usageId, false, '');
+		var params = {};
+		params.orderId = $('#orderId').val();
+		if (itemId) {
+			params.orderItemId = itemId;
+			params.discField = $('#csrType_' + itemId).val();
+			params.discAmtItem = $('#csrDiscItemAmt_' + itemId).val();
+		}
+		params.discPerc = discPerc;
+		params.reasonCode = $('#csrDiscReason').val();
+		params.bdCode = $('#csrDiscReason').data('bdcode');
+		params.usageId = usageId;
+		params.finalView = 'AjaxOrderItemDisplayView';
+		_showProgress();
+		hpStoreUtils.ajax(_ccAjaxURLs.csrDiscountUrl, 'POST', $.extend(params, _ccSharedParams),
+			function(data, status, jqXHR) {
+				data = data.replace('/*', '').replace('*/', '').trim();
+				var response = JSON.parse(data);
+				if (response.errorCode) {
+					_toggleMainError(itemId, usageId, true, response.errorMessage);
+					_hideProgress();
+				} else {
+					$.cartUtils.refreshPage();
+				}
+			},
+			function(jqXHR, status, err) {
+				console.error('Unable to apply discounts : ' + err);
+				_toggleMainError(itemId, usageId, true, err);
+				_hideProgress();
+			},
+			true
+		);
+	};
+    
+	//APIs
+	return {
+		sendEmailQuote: function(formName) {
+			_resetSendEmailQuote();
+			
+			var form = document.forms[formName];
+			var params = {};
+			var emailTo = "";
+			var quoteNo = "";
+			var useAgentContactFlag = "No";
+			
+			if (form.emailTo.value) {
+				emailTo = $.trim(form.emailTo.value);
+			}
+			if (form.quoteNo.value) {
+				quoteNo = $.trim(form.quoteNo.value);
+			}
+			if (emailTo === "") {
+				document.getElementById('emailQuoteMessage').focus();
+				$('#emailTo').addClass('error');
+				$("#emailQuoteMessage").text("Please enter email address.");
+				return;
+			}
+			if (!(emailTo.indexOf("@") > 0)) {
+				$('#emailTo').addClass('error');
+				$("#emailQuoteMessage").text("Please enter valid email address.");
+				return;
+			}
+			if ($('#agentcontactcustomchkbox').hasClass('checked')) {
+				useAgentContactFlag = "Yes";
+			}
+			
+			params.emailTo = emailTo;
+			params.quoteNo = quoteNo;
+			params.useAgentContactFlag = useAgentContactFlag;
+			
+			hpStoreUtils.ajax(_ccAjaxURLs.emailQuoteURL, "POST", params,
+				function(data, textStatus, jqXHR) {
+					var responseStr = data.replace('/*', '').replace('*/', '').trim();
+					var serviceResponse = JSON.parse(responseStr);
+					
+					if (serviceResponse && !serviceResponse.errorMessage) {
+						_resetSendEmailQuote();
+						$("#emailTo").val("");
+						$('#callCenterDialog p#message').html("Quote has been sent successfully");
+						$('#callCenterDialog').foundation('reveal', 'open');
+					} else {
+						_resetSendEmailQuote();
+						$('#emailTo').addClass('error');
+						$("#emailQuoteMessage").text(serviceResponse.errorMessage);
+					}
+				},
+				function(jqXHR, textStatus, errorThrown) {
+					console.error("Unable to call sendEmailQuote : " + errorThrown);
+				}
+			);
+		},
+		
+		resetSendEmailQuote: function() {
+			_resetSendEmailQuote();
+		},
+		
+		findCSRDiscType: function ($this) {
+    		var lPrice = $this.siblings('.lPrice').val();
+    		if ($this.hasClass('csrItemAmt')) {
+    			$this.siblings('.csrType').val('AMT');
+    			$this.siblings('.csrItem').val(Math.round((($this.val() / lPrice) * 100) * 100) / 100);
+    		} else if ($this.hasClass('csrItem')) {
+    			$this.siblings('.csrType').val('PCT');
+    			$this.siblings('.csrItemAmt').val(Math.round((($this.val() / 100) * lPrice) * 100) / 100);
+    		}
+    	},
+
+		applyCSROrder: function($this) {
+			_toggleError($this, false, '');
+			if ($this.data('csritem') != '0.00') {
+				_toggleError($this, true, 'Item(s) discounts already applied');
+				$this.focus();
+				return;
+			}
+			var discPerc = _getCSRDisc($this);
+			if (discPerc == null) {
+				return;
+			}
+			var reasonCode = _getCSRReason($this, true);
+			if (!reasonCode) {
+				return;
+			}
+			if (!_isCSRDiscValid(_getDiscLimit($this), discPerc, '-1', '')) {
+				return;
+			}
+			_csrDiscSubmit(discPerc, null, '-1');
+		},
+
+		applyCSRShip: function($this) {
+			_toggleError($this, false, '');
+			var shipAmt = $this.data('charge');
+			shipAmt = isNaN(shipAmt) ? 0 : parseFloat(shipAmt);
+			if (shipAmt <= 0.0) {
+				_toggleError($this, true, 'Cannot discount FREE shipping');
+				$this.focus();
+				return;
+			}
+			var discPerc = _getCSRDisc($this);
+			if (discPerc == null) {
+				return;
+			}
+			if (discPerc > shipAmt) {
+				_toggleError($this, true, 'Discount cannot exceed shipping amount');
+				$this.focus();
+				return;
+			}
+			var reasonCode = _getCSRReason($this, true);
+			if (!reasonCode) {
+				return;
+			}
+			if (!_isCSRDiscValid(_getDiscLimit($this), discPerc, '-7', '')) {
+				return;
+			}
+			_csrDiscSubmit(discPerc, null, '-7');
+		},
+
+		applyCSRItem: function($this) {
+			_toggleError($this, false, '');
+			if ($this.data('csrord') != '0.00') {
+				_toggleError($this, true, 'Order discounts already applied');
+				$this.focus();
+				return;
+			}
+			var discPerc = _getCSRDisc($this);
+			if (discPerc == null) {
+				return;
+			}
+			var reasonCode = _getCSRReason($this, false);
+			if (!reasonCode) {
+				_csrReason($this.data('id'));
+				return;
+			}
+			if (!_isCSRDiscValid(_getDiscLimit($this), discPerc, '-1', $this.data('id'))) {
+				return;
+			}
+			_csrDiscSubmit(discPerc, $this.data('id'), '-1');
+		},
+		
+		csrLoginClear: function() {
+			var $this = $('#csrLoginBox');
+			var $user = $this.find('#csrLogonId');
+			var $pwd = $this.find('#csrPassword');
+			_toggleError($user, false, '');
+			_toggleError($pwd, false, '');
+			_toggleMainError('Login', '', false, '');
+			$user.val('');
+			$pwd.val('');
+		},
+
+		csrLoginSubmit: function () {
+			var $this = $('#csrLoginBox');
+			var $user = $this.find('#csrLogonId');
+			var $pwd = $this.find('#csrPassword');
+			_toggleError($user, false, '');
+			_toggleError($pwd, false, '');
+			var fValid = true;
+			if (_isEmptyString($user.val())) {
+				_toggleError($user, true, 'Enter a valid username');
+				fValid = null;
+			}
+			if (_isEmptyString($pwd.val())) {
+				_toggleError($pwd, true, 'Enter a valid password');
+				fValid = null;
+			}
+			if (!fValid) {
+				return;
+			}
+			_csrAuthenticate($this, $user, $pwd);
+		},
+
+		csrReasonClear: function () {
+			$('#csrItemReason').val('');
+			_toggleError($('#csrDiscItem_' + $('#csrReasonBox').data('item')), false, '');
+			_toggleError($('#csrDiscReason'), false, '');
+		},
+		
+		csrReasonSubmit: function () {
+			var $this = $('#csrItemReason');
+			var $ele = $('#csrDiscReason');
+			_toggleError($this, false, '');
+			_toggleError($ele, false, '');
+			if (_isEmptyString($this.val())) {
+				_toggleError($this, true, 'Select a reason for giving this discount');
+				return;
+			} else if ($this.val() == 'BigDeals') {
+				$ele.val($this.val());
+				$('#csrReasonBox').foundation('reveal', 'close');
+				setTimeout(function () {
+					$.callCenterUtils.csrBigDeal(true);
+				}, 200);
+				return;
+			} else {
+				_csrSetBDText('');
+			}
+			$ele.val($this.val().trim());
+			this.applyCSRItem($('#csrDiscItem_' + $('#csrReasonBox').data('item')));
+			$('#csrReasonBox').foundation('reveal', 'close');
+		},
+		
+		csrItemReasonChange: function ($this) {
+			_toggleError($this, false, '');
+			if (_isEmptyString($this.val())) {
+				_toggleError($this, true, 'Select a reason for giving this discount');
+			}
+		},
+
+		csrReasonChange: function ($this) {
+			if ($this.val().trim() == 'BigDeals') {
+				this.csrBigDeal(false);
+			} else {
+				_csrSetBDText('');
+			}
+		},
+
+		csrBigDeal: function (submit) {
+			this.csrBDClear();
+			$('#csrBDCode').data('submit', submit);
+			$('#csrBDBox').foundation('reveal', 'open');
+		},
+
+		csrBDClear: function () {
+			$('#csrBDCode').val('');
+			_toggleError($('#csrBDCode'), false, '');
+		},
+
+		csrBDSubmit: function () {
+			var $this = $('#csrBDCode');
+			_toggleError($this, false, '');
+			if (_isEmptyString($this.val())) {
+				_toggleError($this, true, 'Enter a valid big deal code');
+				return false;
+			}
+			_csrSetBDText($this.val().trim());
+			$('#csrBDBox').foundation('reveal', 'close');
+			if ($this.data('submit')) {
+				this.applyCSRItem($('#csrDiscItem_' + $('#csrReasonBox').data('item')));
+			}
+		},
+		
+		manageOrderLock: function(ccAction, storeId) {
+			var params = {};
+			params.storeId = storeId;
+			params.ccAction = ccAction;
+			hpStoreUtils.ajax(_ccAjaxURLs.manageOrderLockURL, 'POST', params,
+				function(data, status, jqXHR) {
+					data = data.replace('/*', '').replace('*/', '').trim();
+					var response = JSON.parse(data);
+					if (response.lockAction == 'R') {
+						$('#callCenterDialog p#message').html('Cart is now unlocked');
+					} else if (response.errorMessage) {
+						$('#callCenterDialog p#message').html(response.errorMessage);
+					} else if (response.errorMessageKey) {
+						$('#callCenterDialog p#message').html(response.errorMessageKey);
+					} else {
+						$('#callCenterDialog p#message').html('Cart is now locked');
+					}
+					$('#callCenterDialog').foundation('reveal', 'open');
+				},
+				function(jqXHR, status, err) {
+					console.error('Unable to manage OrderLock : ' + err);
+				}
+			);
+		},
+		
+		updateLVOState: function() {
+			_toggleMainError('csrErrLVO', '', false, '');
+			if ($('input#LVOFlag').length > 0) {
+				var params = {};
+				params.storeId = $('#storeId').val();
+				params.langId = $('#langId').val();
+				params.catalogId = $('#catalogId').val();
+				params.orderId = $('#orderId').val();
+				params.lvoFlag = $('input#LVOFlag').is(':checked') ? 1 : 0;
+				_showProgress();
+				hpStoreUtils.ajax(_ccAjaxURLs.manageLVOFlagURL, 'POST', params,
+					function(data, status, jqXHR) {
+						data = data.replace('/*', '').replace('*/', '').trim();
+						var response = JSON.parse(data);
+						if (response && !response.errorMessage) {
+							console.log('Successfully updated LVOState');
+							$.cartUtils.continueCheckout();
+						} else if (response.errorMessage) {
+							console.error('Unable to update LVOState : msg = ' + response.errorMessage);
+							_toggleMainError('csrErrLVO', '', true, response.errorMessage);
+							_hideProgress();
+						} else if (response.errorMessageKey) {
+							console.error('Unable to update LVOState : key = ' + response.errorMessageKey);
+							_toggleMainError('csrErrLVO', '', true, response.errorMessageKey);
+							_hideProgress();
+						}
+					},
+					function(jqXHR, status, err) {
+						console.error('Unable to update LVOState : ' + err);
+						_toggleMainError('csrErrLVO', '', true, 'Unable to update LVO State');
+						_hideProgress();
+					}
+				);
+			}
+		}
+	}
+})(jQuery);
+
+$(document).on('ready', function() {
+	$('#csrReasonBox').on('opened.fndtn.reveal', function (e) {
+		$('#csrItemReason').focus();
+	});
+
+	$('#csrReasonBox').on('closed.fndtn.reveal', function (e) {
+		$.callCenterUtils.csrReasonClear();
+	});
+	
+	$('#csrReasonBox .csrOK').on('click', function (e) {
+		$.callCenterUtils.csrReasonSubmit();
+	});
+
+	$('#csrBDBox').on('opened.fndtn.reveal', function (e) {
+		$('#csrBDCode').focus();
+	});
+	
+	$('#csrBDBox').on('closed.fndtn.reveal', function (e) {
+		$.callCenterUtils.csrBDClear();
+	});
+
+	$('#csrBDBox .csrOK').on('click', function (e) {
+		$.callCenterUtils.csrBDSubmit();
+	});
+	
+	$('#csrLoginBox').on('opened.fndtn.reveal', function (e) {
+		$('#csrLoginBox #csrLogonId').focus();
+	});
+
+	$('#csrLoginBox').on('closed.fndtn.reveal', function (e) {
+		$.callCenterUtils.csrLoginClear();
+	});
+	
+	$('#csrLoginBox .csrOK').on('click', function (e) {
+		$.callCenterUtils.csrLoginSubmit();
+	});
+	
+	$('#csrItemReason').on('change', function (e) {
+		$.callCenterUtils.csrItemReasonChange($(this));
+	});
+
+	$('.xo_cart .csrloginbox .inpt').on('keypress', function (e) {
+		var $this = $(this);
+		if (e.keyCode == 13) {
+			switch ($this.parents('csrloginbox').attr('id')) {
+			case 'csrLoginBox':
+				$.callCenterUtils.csrLoginSubmit(); break;
+			case 'csrReasonBox':
+				$.callCenterUtils.csrReasonSubmit(); break;
+			case 'csrBDBox':
+				$.callCenterUtils.csrBDSubmit(); break;
+			}
+		}
+	});
+	
+	$('.xo_cart .csrloginbox .contentarea').on('keyup', function (e) {
+		if (e.keyCode == 27) {
+			$(this).parents('.csrloginbox').foundation('reveal', 'close');  
+		}
+	});
+});
+
+$(document).on('ready readyAgain', function (e) {
+	$('#csrDiscReason').off('change');
+	$('#csrDiscReason').on('change', function(e) {
+		$.callCenterUtils.csrReasonChange($(this));
+	});
+	
+	$('.xo_cart .productrow .csrDisc').off('keyup');
+	$('.xo_cart .productrow .csrDisc').on('keyup', function (e) {
+		$.callCenterUtils.findCSRDiscType($(this));
+	});
+	
+	$('.xo_cart .csritemapply').off('click');
+	$('.xo_cart .csritemapply').on('click', function (e) {
+		$.callCenterUtils.applyCSRItem($(this).siblings('.csrItem'));
+	});
+
+	$('.xo_cart .csrordrapply').off('click');
+	$('.xo_cart .csrordrapply').on('click', function (e) {
+		$.callCenterUtils.applyCSROrder($(this).siblings('.csrOrd'));
+	});
+
+	$('.xo_cart .csrshipapply').off('click');
+	$('.xo_cart .csrshipapply').on('click', function (e) {
+		$.callCenterUtils.applyCSRShip($(this).siblings('.csrShip'));
+	});
+});

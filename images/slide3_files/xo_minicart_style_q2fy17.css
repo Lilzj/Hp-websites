@@ -1,0 +1,45 @@
+/* .xo_minicart{max-width:600px; background-color:white; border:1px solid #ccc; padding:40px 30px; position:absolute; top:140px; left:51%; box-shadow: 0px 0px 10px 0px rgba(204, 204, 204, 0.7); color:#000;  } */
+/* .xo_minicart:before{ content:""; background:url(../img/xo_minicart_toparrow_26x25.png) no-repeat 0 0; width:25px; height:26px; display:block; position:absolute; top:-13px; right:25px} */
+.xo_minicart{background-color:white; padding:0px 30px; text-align: left; font-size: 16px; line-height: 1;}
+.xo_minicart .closeminicart{position:absolute; right:15px; top:15px; display:block; opacity:.5;}
+.xo_minicart .closeminicart:hover{opacity:1}
+.xo_minicart .minicarttitle{overflow:hidden; clear:both; margin-bottom:20px}
+.xo_minicart .minicarttitle h3{font-size:26px; font-weight:100; display:inline-block; margin-right:25px;line-height:1;}
+.xo_minicart .minicarttitle a{color:#007DBA; font-weight:100; text-decoration:none}
+.xo_minicart .minicarttitle a:hover{text-decoration:underline}
+.xo_minicart .mcprodcont{max-height:400px; overflow:auto }
+.xo_minicart select::-ms-expand {display: none;}
+.xo_minicart select {-webkit-appearance:none;-moz-appearance:none;color:#000;border:1px solid #ccc;font-family:"HPSimplified",arial;font-weight:100;font-size:14px;cursor:pointer;background:url(../img/xo_selectarrow_13x8.png) no-repeat right center transparent}
+.xo_minicart .productrow{ display:block; overflow:hidden; clear:both; padding:15px 0; border-bottom:1px solid #ddd; font-weight:100}
+.xo_minicart .productrow .mcprodimg{float:left; width:15%}
+.xo_minicart .productrow .mcprodimg img{width:65px; margin-top:5px;}
+.xo_minicart .productrow .mcprodname{float:left; width:35%}
+.xo_minicart .productrow .mcprodname a{font-size:16px; font-weight:100; color:#000; line-height:18px; margin:5px 15px 8px 5px; display:inline-block}
+.xo_minicart .productrow .mcprodname:hover a{ text-decoration:underline}
+.xo_minicart .productrow .mcprodname span{display:block; font-size:12px; color:#767676; margin-left:5px}
+.xo_minicart .productrow .mcprodname .poboshipdate{font-size:14px; color:#6B3A96; font-family: HP Simplified Light;margin-top:5px;}
+.xo_minicart .productrow .mcprodqty{float:left; width:20%}
+.xo_minicart .productrow .mcprodqty span{display:inline-block; padding-right:5px}
+.xo_minicart .productrow .mcprodqty span.qty{display:inline-block;padding:5px 8px; width:50px;}
+.xo_minicart .productrow .mcprodqty select{padding:5px 8px; width:50px}
+.xo_minicart .productrow .mcprodprice{float:left; width:30%}
+.xo_minicart .productrow .mcprodprice span{float:right; display:inline-block;}
+.xo_minicart .productrow .mcprodprice span.stricked{margin-right:10px; position:relative; color:#767676}
+.xo_minicart .productrow .mcprodprice span.stricked:before{content:""; position:absolute; border-top:1px solid #767676; width:100%; transform: rotate(168deg); margin-top:6px}
+.xo_minicart .mccarttotal{display:block; overflow:hidden; clear:both; padding:15px 0;font-weight:100}
+.xo_minicart .mccarttotal .mcfreeshipping{ float:left}
+.xo_minicart .mccarttotal .mcfreeshipping span{background-color:#d9f4fb; display:inline-block; padding:5px 7px}
+.xo_minicart .mccarttotal .mcsubtotal{float:right}
+.xo_minicart .mccarttotal .mcsubtotal .mcpricelabel{float:left; padding-right:25px; text-align:right}
+.xo_minicart .mccarttotal .mcsubtotal .mcpricelabel span{display:block; font-size:12px; line-height:18px}
+.xo_minicart .mccarttotal .mcsubtotal .mctotalprice{float:right}
+.xo_minicart .mccta{text-align:right; padding: 20px 0px;}
+.xo_minicart .mccta .mcbtnblue{ text-transform:uppercase; color:#fff; font-size:18px; text-decoration:none; font-weight:100; padding:13px 23px; background-color:#0096db; border-radius:3px}
+.xo_minicart .mccta .mcbtnblue:hover{background-color:#1159a0;}
+.xo_minicart .carterrormsg{display:block; color:#bf2026; background-color:#f5e6e7; font-size:14px; line-height:18px; padding:5px 10px; position:relative}
+.xo_minicart .errorstate{border: 1px solid #bf2026!important;}
+.xo_minicart .fltLeft{float:left}
+.xo_minicart .fltRight{float:right}
+#header .xo_minicart .minicarttitle a:hover {text-decoration:underline !important;}
+#header .xo_minicart .productrow .mcprodname a:hover {text-decoration:underline !important;}
+.minicart-container .minicart-overlay {background:url(../img/xo_loading_ring_60x60.gif) no-repeat center rgba(255,255,255, 0.7);height:100%;left:0;padding:0;position:absolute;text-align:center;top:0;width:100%;z-index:999}

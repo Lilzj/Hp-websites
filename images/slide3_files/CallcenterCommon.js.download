@@ -1,0 +1,126 @@
+CallcenterCommonJS={
+		
+	manageOrderLock:function(ccAction, storeId) {
+		var params = [];
+		params.storeId = storeId;
+		params.ccAction = ccAction;
+		cursor_wait();			
+		wc.service.invoke("CCManageOrderLock", params);
+	},
+
+	callOrderLockHelper:function(storeId, takeoverlock) {
+		var params = [];
+		if (storeId)
+			params.storeId = storeId;
+		if (takeoverlock)
+			params.takeoverlock = takeoverlock;
+		cursor_wait();			
+		wc.service.invoke("CCOrderLockHelper", params);
+	},
+	updateCartItemQty: function(qtyElmtId,prevQty,orderId,langId,storeId,catalogId,itemType) {      		
+		  if($('img#progress_bar_icon').length > 0) {
+		     $('img#progress_bar_icon').center();
+		  }
+
+          var qtyHTMLElmt = $('input#'+qtyElmtId)[0];
+          var newQty = qtyHTMLElmt.value;
+          
+          setCurrentId(qtyElmtId); 
+          CheckoutHelperJS.setPreviousValue(prevQty,qtyElmtId); 
+          CheckoutHelperJS.setCommonParameters(langId,storeId,catalogId);
+          if(itemType=='VGC' || itemType=='PGC' || itemType=='PROMO_GC'){
+                CheckoutHelperJS.updateGiftCardTable(qtyHTMLElmt,orderId,'update');                  
+          }                 
+          CheckoutHelperJS.updateCartWait(qtyHTMLElmt,orderId);
+   	},	
+	toggleError:function($ele, setErr, errMsg) {
+		var $parent = $ele.parents('.inputWrapper');
+		$parent.removeClass('errorHighlight');
+		var s =$parent.find('.errorClass');
+		$parent.find('.errorClass').text(errMsg);
+		$parent.find('.errorClass').css('display','block');
+		if (setErr) {
+			$parent.addClass('errorHighlight');
+		}
+	},
+	isValidEmail:function(s){
+		return s != null && s.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/);
+	},
+	isEmptyString:function(s) {
+		return (!s || /^\s*$/.test(s));
+	},
+	validInput:function($ele, showErr){
+		var fValid = true;
+		var errMsg = '';
+	
+		if (isEmptyString($ele.val())) {
+			if (isMandatory($ele)) {
+				fValid = false;
+				errMsg = $ele.data('errnull');
+			}
+		} else {
+			$ele.siblings('.labl').removeClass('noText');
+			$ele.removeClass('noText');
+			
+			fValid = isValidEmail($ele.val());
+			
+			if (!fValid) {
+				errMsg = $ele.data('errinv');
+			}
+		}
+		if (showErr) {
+			toggleError($ele, !fValid, errMsg);
+		}
+		
+		return fValid;
+		
+	},
+	sendEmailQuote: function( formName) {
+   	//	CallcenterCommonJS.resetSendEmailQuote();
+    	
+    	var form = document.forms[formName];
+    	var params = [];
+    	var emailTo = "";
+    	var quoteNo = "";
+    	var useAgentContactFlag = "No";
+    	
+    	if( form.emailTo.value ) {
+    		emailTo = trim(form.emailTo.value);
+    	}
+    	
+    	if( form.quoteNo.value ) {
+    		quoteNo = trim(form.quoteNo.value);
+    	}
+    	
+		if ( emailTo === "" ) {
+			$('#emailTo').addClass('noText');
+			$('#emailTo').siblings('.labl').addClass('noText');
+			toggleError($('#emailTo'), true, $('#emailTo').data('errnull'));
+		//	document.getElementById('emailQuoteMessage').focus();
+			
+			//$('#emailTo').addClass('error');
+			//$("#emailQuoteMessage").text("Please enter email address.");
+			return;
+		}
+		if(!validInput($('#emailTo'),true)){
+			return;
+		}
+		
+		
+		if ( $('#agentcontactcustomchkbox').hasClass('checked') ) {
+			useAgentContactFlag = "Yes";
+		}
+		
+		params.emailTo = emailTo;
+		params.quoteNo = quoteNo;
+		params.useAgentContactFlag = useAgentContactFlag;
+		
+    	cursor_wait();
+    	wc.service.invoke("CCSendEmailQuote", params);    	
+    },
+   
+    resetSendEmailQuote: function() {
+    	$('#emailTo').removeClass('error');
+		$('#emailQuoteMessage').text("");
+    }
+}

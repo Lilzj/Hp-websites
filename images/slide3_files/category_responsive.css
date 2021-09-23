@@ -1,0 +1,669 @@
+@charset "UTF-8";
+/* CSS Document */
+h1 {
+    color: #000000;
+    font-family: "HPSimplified-light";
+    font-size: 2em;
+	margin-top: 0.875em;
+}
+
+.exploreBig .subBoxinfo {
+    left: 30px;
+    position: absolute;
+    top: 15%;
+	width:50%;
+}
+.byCategory .exploreBig .subBoxinfo {
+    left: 9%;
+    top: 14%;
+}
+.exploreBig, .exploreSmall_1, .exploreSmall_2, .exploreSmall_3 {
+    position: relative;
+}
+.subBoxinfo h2 {font-family: "HPSimplified-light";}
+.subBoxinfo p{
+    color: #767676;
+    display: block;
+    font-family: "HPSimplified-light";
+    font-size: 24px;
+    line-height: 28px;
+    margin: 0 0 1em;		
+}
+.subBoxinfoSmall h3 {
+    color: #000000;
+    font-family: "HPSimplified-light";
+    font-size: 1.5em;
+    line-height: 1.2em;
+    margin-bottom: 11px;
+}
+byUse p, .byUse h3 span, .subBoxinfoSmall p {
+    color: #767676;
+    display: block;
+    font-family: "HPSimplified-light";
+    font-size: 24px;
+    line-height: 28px;
+    margin: 0;
+}
+.subBoxinfoSmall {
+    left: 22px;
+    position: absolute;
+    top: 16px;
+}
+.byUseSubBox .subBoxinfoSmall p {
+    font-size: 1em;
+    line-height: 1.2em;
+    min-height: 60px;
+    padding: 0 0 2px;
+}
+.byUseSubBox {border-top:solid 1px #cacaca;}
+.exploreSmall_1, .exploreSmall_2 {
+    border-right: 1px solid #C8CACA;
+    position: relative;
+}
+.page_id_area {
+    float: left;
+}
+.endorsment_section {float:right; position:absolute}
+.endorsment_section {
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 47px;
+}
+.endorsment_section .endorsement_img {display:none;}
+
+.category_btn_area { position: absolute; top:0px; right: 0px; text-align: right; z-index: 2;}
+.category_btn_area .helpmechoosebtn.btn {background: url("../img/helpmechoose_printer.png") no-repeat scroll 15px center #767676; padding-right: 15px; padding-left:50px;}
+.category_btn_area .helpmechoosebtn.btn:hover {background-color:#B9B8BB;}
+.category_btn_area .view_all.btn {margin-left: 10px;}
+
+.icoPlace .btn.bluebtn.small {
+    float: right;
+    text-align: right;
+}
+.partner_endorsement {
+    font-size: 0.75em;
+    font-weight: bold;
+    margin-bottom: 0;
+    text-align: right;
+}
+#hero_responsive {
+    padding-top: 25px;
+}/*noteshere*/
+
+.sliderContent.bannercontent span.hp_category {
+    color: #5A5A5A;
+    font-family: HPSimplified-light;
+	font-weight: normal;
+    font-size: 1.5em;
+}
+.sliderContent h3 {
+    color: #000;
+	margin-top:-10px;
+    font-family: "HPSimplified-light";
+    font-size: 2em;
+    margin-bottom: 0;
+}
+.sliderContent.bannercontent p {
+    color: #000000;
+    font-size: 1em;
+    font-weight: 100;
+	line-height:1.2em;
+}/*End*/
+.ellip_link.dismiss, .ellip_link2.dismiss{display:none;}
+@media screen and (max-width: 496px) {
+.bx-controls.bx-has-pager.bx-has-controls-direction {
+    margin-top: 20px;
+    position: relative;
+}
+.make_ellip, .make_ellip2 {height:80px;}
+.page_id_area h1 {
+    margin-top: 0;
+    padding-top: 25px;
+}
+#hero_responsive .text_and_cta .details {
+    color: #010101;
+}
+}
+.text_and_cta.sliderContent.bannercontent a {
+/*    bottom: 24px;
+    position: absolute;
+    right: 20px;
+	display:none;
+*/	color:#0096d6;
+}
+.text_and_cta.sliderContent.bannercontent a:hover {
+	color:#006699;
+}
+#hero_responsive .text_and_cta .details {
+    color: #0096D6;
+}
+/*.text_and_cta.sliderContent.bannercontent .make_ellip + a {
+    display: block;
+}
+*/
+@media screen and (min-width: 801px) and (max-width: 1180px) {
+#hero_responsive, .subBoxinfoSmall {font-size:80%;}
+.sliderContent.bannercontent p {width:65%;}	
+.make_ellip, .make_ellip2 {height:70px;}
+#hero_responsive .bx-wrapper .bx-next {right:40px}
+#hero_responsive .bx-wrapper .bx-prev {left:40px}
+}
+@media screen and (min-width: 1000px) and (max-width: 1180px) {
+	.sliderContent.bannercontent p {width:80%;}
+	
+}
+@media screen and (min-width: 1181px) {
+	.sliderContent.bannercontent p {width:100%;}
+	
+}
+#hero_responsive .text_and_cta {
+}
+.band1, .band2 {
+    background: url("../img/category/band1.png") no-repeat scroll right top rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    left: 0;
+    line-height: 30px;
+    margin: 0;
+    padding: 0 25px 0 15px;
+    position: absolute;
+    top: 10px;
+}
+.triangle1, .triangle2 {
+    border-color: rgba(0, 0, 0, 0) #3F153E rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-width: 0 7px 7px 0;
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: 28px;
+    width: 0;
+}
+.slide_tabs_container .subBoxinfoSmall a.details {
+    margin-bottom: 10px;
+}
+.text_and_cta .ellip-line {
+    max-width: 70%;
+}
+@media only screen and (max-width: 496px) {
+#model_attached #productsliderarea .prevcolumn #productsliderprev,
+#model_attached #productsliderarea .nextcolumn #productslidernext {visibility:hidden!important;}
+.band1, .band2 {
+    background: url("../img/category/band1-mobile.png") no-repeat scroll right top rgba(0, 0, 0, 0);
+}
+.slider .band1, .band2 {
+    background: url("../img/category/band1.png") no-repeat scroll right top rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    left: -7px;
+    line-height: 22px;
+    margin: 0;
+    padding: 0 15px 0 9px;
+    position: absolute;
+    top: 10px;
+}
+
+.triangle1, .triangle2 {
+    border-color: rgba(0, 0, 0, 0) #3F153E rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-width: 0 7px 7px 0;
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+}
+#hero_responsive .text_and_cta.sliderContent.bannercontent a.details{display:none;}
+#hero_responsive .text_and_cta {
+    padding: 20px;
+}
+}
+@media only screen and (max-width: 800px) {
+.endorsment_section {display: block;}
+
+.page_id_area h1 span {
+    display: none;
+}
+.page_id_area h1 {
+    background: url("../img/link_header_mobile.png") no-repeat scroll right 45px;
+    cursor: pointer;
+    display: inline-block;
+    padding-right: 18px;
+}	 
+
+#hero_responsive p {display:block; margin-bottom:0;}
+/*End*/
+.topgradient {
+    background: none;
+}
+h1 {
+    font-size: 1.4em;
+}
+.page_id_area h1 {
+    padding-left: 20px;
+    padding-top: 40px;
+	margin-bottom:8px;
+}
+.page_id_area {
+    clear: both;
+    float: none;
+}
+#model_attached .view_all.btn {
+    left: 20px;
+    position: relative;
+    top: 0;
+}
+.endorsment_section {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 7px;
+}
+a.view_all.small {
+    background: url("../img/anchor20_20.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+    color: #000000;
+    display: inline-block;
+    font-weight: normal;
+    line-height: 20px;
+    padding-left: 28px;
+	font-size:1em;
+}
+a.view_all.small:hover, a.details:hover {color:#0096d6;}
+.byUseSubBox a.details {margin-bottom:10px;}
+
+.exploreBig .subBoxinfo {
+    left: 20px;
+    position: absolute;
+    top: 12px;
+    width: 60%;
+}
+#model_attached  h2 {
+    font-size: 1.3em;
+    font-weight: 100;
+}
+.subBoxinfoSmall h3 {
+    font-size: 1.3em;
+}
+.exploreSmall_1, .exploreSmall_2 {
+    border-right: medium none;
+}
+.byUseSubBox {
+    border-top: 1px solid #E8E5E5;
+	overflow:hidden;
+}
+#hero_responsive {
+    padding-top: 0px;
+}
+#hero_responsive .text_and_cta {
+/*    left: 0;
+    padding: 20px;
+    position: relative;
+    top: 10%;
+    width: auto;*/
+}
+.sliderContent h3 {
+    color: #000000;
+    font-family: "HPSimplified-light";
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+#model_attached .sliderrow {
+    padding-bottom: 0;
+    padding-top: 4px;
+}
+section.select_navigation {
+	/*width:100%;*/
+	padding:0 20px 0 20px;
+}
+
+.category_btn_area {position: relative; text-align: center; margin-top: 1.5em; margin-bottom: 1.5em;}
+.exploreBig {border-top: 1px solid #E8E5E5;min-height:120px;}
+
+.wide_section{padding-left:0; padding-right:0; width:100%;}
+/*Visibility*/
+.subBoxinfo p, .subBoxinfoSmall p, .endorsement_img, .sliderContent.bannercontent span.hp_category, .single_item_for_desktop, a.view_all.small {
+    display: none;
+}
+
+#hero_responsive ul li img, .explore_tout {cursor:pointer;}
+#hero_responsive ul {margin-bottom:0;}
+#hero_responsive {border-bottom: 1px solid #E8E5E5;}
+ul.slider{margin-bottom:0;}
+#model_attached .slidercolumn .price .startingat { font-size: 0.75em;padding-bottom:0;}
+.topgradient {padding-bottom: 23px;}
+}
+@media only screen and (min-width: 801px) { 
+.addittional_text_in_mobile {display:none;}
+#model_attached .prevcolumn, #model_attached .nextcolumn {
+    width: 5%;
+}
+#model_attached #productsliderarea .prevcolumn #productsliderprev,
+#model_attached #productsliderarea .nextcolumn #productslidernext{visibility:hidden!important;}
+
+}
+@media only screen and (min-width: 497px) {
+.page_id_area h1 {
+    margin-bottom: 0;
+}
+#hero_responsive .text_and_cta .details {
+    color: #000;
+}
+/*.slide_tabs_container .tab {
+	float:left;
+}
+	*/
+}
+
+@media only screen and (max-width: 800px) and (min-width: 497px) {
+	#model_attached h2 {font-size: 2em;}
+	#model_attached .subBoxinfoSmall h3 {font-size: 2em;}
+	#hero_responsive .text_and_cta .details {margin-top: 0.625em;}
+}
+
+.viewSubcategory {
+    text-align: center;
+    width: 100%;
+	padding-top:20px;
+}
+@media only screen and (max-width: 800px) {
+	.viewSubcategory {padding-bottom:0px; padding-top:10px; height: 60px;}
+}
+.viewSubcategory a {
+    background: url("../img/arrowRoundDown_35x35.png") no-repeat scroll right 15px;
+    font-size: 2em;
+    font-weight: 100;
+	padding: 10px 55px 10px 0;
+}
+.viewSubcategory a._isvisible {
+    background: url("../img/arrowRoundUp_35x35.png") no-repeat scroll right 15px;
+}
+.viewSubcategory a:hover{
+color:#0096d6;
+}
+.viewSubcategory a:focus{
+color:#000;
+}
+@media only screen and (min-width: 800px) {
+	.byUseSubBox .large-6 .imgContainer img { height: 375px; }
+	.byUseSubBox .large-4 .imgContainer img { height: 255px; }
+	.exploreBig { min-height: 330px; }
+}
+.out_of_the_scene + div.clear + .viewSubcategory, ._hide_subCat_link + div.clear + .viewSubcategory {
+    display: none;
+}
+
+
+/* SelectBoxIt container */
+.selectboxit-container {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width:100%;
+}
+
+/* Styles that apply to all SelectBoxIt elements */
+.selectboxit-container * {
+	font-weight:100;
+  /* Prevents text selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  outline: none;
+  white-space: nowrap;
+}
+
+/* Button */
+.selectboxit-container .selectboxit {
+  width: 100%; /* Width of the dropdown button */
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: block;
+  position: relative;
+}
+
+/* Height and Vertical Alignment of Text */
+.selectboxit-container span, .selectboxit-container .selectboxit-options a {
+  height: 40px; /* Height of the drop down */
+  line-height: 40px; /* Vertically positions the drop down text */
+  display: block;
+}
+
+/* Focus pseudo selector */
+.selectboxit-container .selectboxit:focus {
+  outline: 0;
+}
+
+/* Disabled Mouse Interaction */
+.selectboxit.selectboxit-disabled, .selectboxit-options .selectboxit-disabled {
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Button Text */
+.selectboxit-text {
+  text-indent: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  float: left;
+}
+
+.selectboxit .selectboxit-option-icon-container {
+  margin-left: 5px;
+}
+
+/* Options List */
+.selectboxit-container .selectboxit-options {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  min-width: 100%;  /* Minimum Width of the dropdown list box options */
+  *width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: auto;
+  cursor: pointer;
+  display: none;
+  z-index: 9999999999999;
+  text-align: left;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Individual options */
+ .selectboxit-option .selectboxit-option-anchor{
+  padding: 0 2px;
+}
+
+/* Individual Option Hover Action */
+.selectboxit-option .selectboxit-option-anchor:hover {
+  text-decoration: none;
+}
+
+/* Individual Option Optgroup Header */
+.selectboxit-option, .selectboxit-optgroup-header {
+  text-indent: 5px; /* Horizontal Positioning of the select box option text */
+  margin: 0;
+  list-style-type: none;
+}
+
+/* The first Drop Down option */
+.selectboxit-option-first {
+}
+
+/* The first Drop Down option optgroup */
+.selectboxit-optgroup-header + .selectboxit-option-first {
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+/* The last Drop Down option */
+.selectboxit-option-last {
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+/* Drop Down optgroup headers */
+.selectboxit-optgroup-header {
+  font-weight: bold;
+}
+
+/* Drop Down optgroup header hover psuedo class */
+.selectboxit-optgroup-header:hover {
+  cursor: default;
+}
+
+/* Drop Down down arrow container */
+.selectboxit-arrow-container {
+  /* Positions the down arrow */
+  width: 30px;
+  position: absolute;
+  right: 0;
+}
+
+/* Drop Down down arrow */
+.selectboxit .selectboxit-arrow-container .selectboxit-arrow {
+    left: -20px;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 18%;
+}
+
+/* Drop Down down arrow for jQueryUI and jQuery Mobile */
+.selectboxit .selectboxit-arrow-container .selectboxit-arrow.ui-icon {
+  top: 30%;
+}
+
+/* Drop Down individual option icon positioning */
+.selectboxit-option-icon-container {
+  float: left;
+}
+
+.selectboxit-container .selectboxit-option-icon {
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+/* Drop Down individual option icon positioning */
+.selectboxit-option-icon-url {
+  width: 18px;
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  height: 100%;
+  background-position: center;
+  float: left;
+}
+
+.selectboxit-rendering {
+  display: inline-block !important;
+  *display: inline !important;
+  zoom: 1 !important;
+  visibility: visible !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
+
+/* jQueryUI and jQuery Mobile compatability fix - Feel free to remove this style if you are not using jQuery Mobile */
+.jqueryui .ui-icon {
+  background-color: inherit;
+}
+
+/* Another jQueryUI and jQuery Mobile compatability fix - Feel free to remove this style if you are not using jQuery Mobile */
+.jqueryui .ui-icon-triangle-1-s {
+  background-position: -64px -16px;
+}
+
+/*
+  Default Theme
+  -------------
+  Note: Feel free to remove all of the CSS underneath this line if you are not using the default theme
+*/
+.selectboxit-btn {
+  background-repeat: repeat-x;
+  border: 1px solid #cccccc;
+}
+
+.selectboxit-btn.selectboxit-enabled:hover,
+.selectboxit-btn.selectboxit-enabled:focus,
+.selectboxit-btn.selectboxit-enabled:active {
+  color: #333333;
+}
+
+.selectboxit-btn.selectboxit-enabled:hover,
+.selectboxit-btn.selectboxit-enabled:focus {
+  color: #333333;
+  text-decoration: none;
+  background-position: 0 -15px;
+}
+
+.selectboxit-default-arrow {
+    background: url("../img/arrowup.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+    height: 21px;
+	-webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+    width: 32px;
+}
+
+.selectboxit-list {
+  background-color: #ffffff;
+  border: 1px solid #5a5a5a;
+  border-top:none;
+}
+
+.selectboxit-list .selectboxit-option-anchor {
+  color: #333333;
+}
+
+.selectboxit-list > .selectboxit-focus > .selectboxit-option-anchor {
+  color: #ffffff;
+  background-color: #0096d6;
+}
+
+.selectboxit-list > .selectboxit-disabled > .selectboxit-option-anchor {
+  color: #999999;
+}
+
+
+.selectboxit-option {
+    border-top: 1px solid #CCCCCC;
+	
+}
+.selectboxit-option-first {
+}
+.selectboxit-hover {
+	border:solid 1px #5a5a5a;
+	}
+.selectboxit-open {
+	border-top:solid 1px #5a5a5a;
+	border-left:solid 1px #5a5a5a;
+	border-right:solid 1px #5a5a5a;
+	border-bottom:none;
+}
+a.secondary_link {display:none;}
+
+.sub-category {
+    border-top: 1px solid #c8caca;
+    display: none;
+}

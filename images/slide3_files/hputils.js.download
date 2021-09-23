@@ -1,0 +1,336 @@
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");    
+    this.css("z-index","10000");
+    this.css("display","block");
+    return this;
+}
+
+function getDefaultStoreParams (){
+	return {
+		storeId : '10151',
+		langId : '-1',
+		catalogId : '10051',
+		ccf : 'false'
+	}
+}
+
+function getFormParams (formId, filterCallBack) {
+	var formSelector = 'form#' + formId;
+	if ($(formSelector).length <= 0) {
+		formSelector = 'form[name=' + formId + ']';
+	}
+	
+	if( $(formSelector).length > 0 ) {
+		var inputArrays = $(formSelector).serializeArray();
+		
+		var formParamsMap = {};
+		$.each(inputArrays,function(index, param){
+			
+			if( filterCallBack ) {
+				if( filterCallBack(param) ) {
+					formParamsMap[param.name] = param.value;
+				}
+			} else {
+				formParamsMap[param.name] = param.value;
+			}
+		});
+		
+		return formParamsMap;
+	} else {
+		return {};
+	}
+}
+
+function invokeAJAX (targetUrl, method, data, successCallback, errorCallback, checkCommandException){
+  var request = $.ajax({
+    url: targetUrl,
+    method: method,
+    data: data
+  });
+
+  if(!checkCommandException){
+	  request.done(successCallback);	  
+  } else {
+	  request.done(function(data, textStatus, jqXHR){
+			var responseStr = data.replace('/*','').replace('*/','').trim();
+			var commandResponse = JSON.parse(responseStr); 	
+			
+			// console.log("check for command Exception : ",JSON.stringify(arguments));
+			if( commandResponse && (commandResponse.errorMessage || commandResponse.errorMessageKey) ) {
+				errorCallback.call(this, arguments[2], commandResponse.errorMessageKey, commandResponse.errorMessage);
+			} else {
+				successCallback.apply(this, arguments); 
+			}	
+	  });
+  }
+  request.fail(errorCallback);
+}
+
+function getCartCommandURLs (){
+  if( typeof(getAbsoluteURL) == 'function') {
+    return {
+      refreshCartItemsUrl : getAbsoluteURL() + 'RefreshCart',
+      orderSummaryUrl : getAbsoluteURL() + 'CartSummaryView',
+      updateCartItemUrl : getAbsoluteURL() + 'AjaxOrderChangeServiceItemUpdate',
+      removeCartItemUrl : getAbsoluteURL() + 'AjaxOrderChangeServiceItemDelete',
+      updateFreeGiftSelectionsUrl : getAbsoluteURL() + 'AjaxOrderChangeServiceRewardOptionUpdate',
+      updateGiftCardTableUrl : getAbsoluteURL() + 'GiftCardUpdateCmd',
+      appyCouponCodeUrl : getAbsoluteURL() + 'AjaxPromotionCodeManage',
+      couponCodeMessageUrl : getAbsoluteURL() + 'PromotionMessageCmd',
+      ctoValidationUrl : getAbsoluteURL() + 'ValidateConfigurationCmd',
+      updatePromotionDistributionUrl : getAbsoluteURL() + 'FDPromotionCmd',
+      paypalRedirectUrl : getAbsoluteURL() + 'AjaxSetExpressCheckout',
+      availableShippingMethodsUrl : getAbsoluteURL() + 'AjaxOrderShipMethods',
+      updateShippingMethodUrl : getAbsoluteURL() + 'AjaxOrderShipMethodUpdate',
+      updateRewardUrl : getAbsoluteURL() + 'AjaxOrderChangeServiceRewardOptionUpdate',
+      checkoutPageUrl : getAbsoluteURL() + 'OrderShippingBillingView',
+      paypalExpressURL : getAbsoluteURL()+ 'PayPalSetExpressCheckout',
+      refreshCartItemsOldUrl : getAbsoluteURL() + 'RefreshOldCart',
+      updateUnavailabilityStatusUrl : getAbsoluteURL() +"AjaxCatentryUnavailability",
+      orderSummaryUrl : getAbsoluteURL() + 'OrderSummaryCmd',
+      logonUrl: getAbsoluteURL() + 'ProcessLogon'
+    }
+  } else {
+    return {};
+  }
+}
+
+function getCheckoutCommandURLs (){
+	  if( typeof(getAbsoluteURL) == 'function') {
+	    return {    		
+    		AddressDoctorUrl : getAbsoluteURL() + 'AddressDoctorValidateCmd',
+    		refreshCartItemsUrl : getAbsoluteURL() + 'RefreshCheckoutCart',
+    		updateCartItemUrl : getAbsoluteURL() + 'AjaxOrderChangeServiceItemUpdate',
+    		updateShippingMethodUrl : getAbsoluteURL() + 'AjaxOrderShipMethodUpdate',
+    		appyCouponCodeUrl : getAbsoluteURL() + 'AjaxPromotionCodeManage',
+    		OrderShipInfoUpdateURL : getAbsoluteURL() + 'AjaxOrderShipInfoUpdate',
+    		GetSelectedShippingAddressURL : getAbsoluteURL() +  'GetSelectedShippingAddress',    		
+    		refreshCheckoutItemsUrl : getAbsoluteURL() + 'CartSummaryView',
+    		shippingPaypalRedirectURL : getAbsoluteURL() + 'AjaxPaypalInvoke',
+    		submitOrderCommentURL : getAbsoluteURL() + 'ccAjaxSubmitOrderComments',
+    		billingInfoUpdateUrl : getAbsoluteURL() + 'AjaxOrderBillInfoUpdate',
+    		getBMLPromotionsUrl : getAbsoluteURL() + 'getBMLPromotions',
+    		creditCardPaymentUpdateUrl : getAbsoluteURL() + 'AjaxCCPaymentAdd',
+    		addGiftCardPaymentUrl : getAbsoluteURL() + 'AjaxGCPaymentAdd',
+    		removeGiftCardPaymentUrl : getAbsoluteURL() + 'AjaxGCPaymentRemove',
+    		bmlHPPPrefferedSubmitUrl : getAbsoluteURL() + 'AjaxBMLInvoke',
+       		paypalSubmitUrl : getAbsoluteURL() + 'AjaxPaypalInvoke',       	 
+    		createQuoteUrl : getAbsoluteURL() + 'AjaxQuoteCreate',
+    		addPurchaseOrderPaymentUrl : getAbsoluteURL() + 'AjaxPOPaymentAdd',
+    		callCenterPaypalOrderSubmitUrl : getAbsoluteURL() + 'CCPaypalOrderConfirm',
+    		/* old commmands */
+    		orderSummaryUrl : getAbsoluteURL() + 'OrderSummaryCmd',
+    		applyGiftCardUrl : getAbsoluteURL() + 'GCApplyCmd',
+    		removeGiftCardUrl : getAbsoluteURL() + 'GCRemoveCmd',
+    		submitCreditCardBilling : getAbsoluteURL() + 'HPAddressAdd',
+    		submitPaypalURL : getAbsoluteURL()+ 'PayPalSetExpressCheckout',
+    		submitbmlHPPPrefferedURL : getAbsoluteURL() + 'BMLHpprefSetCall',
+    		creditCardPaymentProcessingUrl : getAbsoluteURL() + 'PHCPollerCmd',    		
+    		orderSubmitUrl : getAbsoluteURL() + 'OrderSubmitServiceCmd',
+    		newsletterSubscriptionUrl : getAbsoluteURL() + 'HPManageSubscriptionCmd',
+    		saveOrderCommentsUrl : getAbsoluteURL() + 'ccAjaxSubmitOrderComments',
+    		checkGiftCardBalanceUrl : getAbsoluteURL() + 'GCBalanceCmd',
+            carePackValidationUrl : getAbsoluteURL() + 'AjaxCarePackvalidation',
+	        deleteCarePackUrl : getAbsoluteURL() + 'AjaxDeleteCarePack',
+	        makeDefaultSavedCardURL : getAbsoluteURL() + 'AjaxSetDefaultCard',
+	        deleteSavedCardURL : getAbsoluteURL() + 'AjaxRemoveCard',
+	        userRegFromCheckout : getAbsoluteURL() + 'CustomUserRegistrationAdd',
+	        logonUrl: getAbsoluteURL() + 'ProcessLogon'
+	    }
+	  } else {
+	    return {};
+	  }
+	}
+
+function getCallCenterUrls() {
+	if (getAbsoluteURL && typeof (getAbsoluteURL) == 'function') {
+		return {
+			orderLockHelperURL: getAbsoluteURL() + 'ccAjaxOrderLockHelper',
+			manageLVOFlagURL: getAbsoluteURL() + 'ccAjaxManageLVOFlag',
+			emailQuoteURL: getAbsoluteURL() + 'emailQuote',
+			csrDiscountUrl : getAbsoluteURL() + 'AjaxCSRDiscountCmd',
+			csrDiscApporveUrl : getAbsoluteURL() + 'AjaxCSRDiscApproveCmd',
+			manageOrderLockURL : getAbsoluteURL() + 'ccAjaxManageOrderLock'
+		}
+	} else {
+		return {};
+	}
+}
+
+function toggleConfig(ID,display)
+{ 
+	if(display=='show') { 
+		$("#configShow_"+ID).hide(); 
+		$("#configMainDIV_"+ID).show(); 
+	} else {
+		$("#configMainDIV_"+ID).hide(); 
+		$("#configShow_"+ID).show();
+	}
+}
+
+function onMouseToolTip(OrderItemId, display) {
+	if(display=='show'){
+		$("#tooltipshover" + OrderItemId).show(); 
+	}else{
+		$("#tooltipshover" + OrderItemId).hide(); 
+	}
+}
+
+function moveToNext(current, nextFieldID) {
+	if (current.value.length >= current.maxLength) {
+		$('#'+nextFieldID).focus();
+	}
+}
+
+function focusNext(currentFieldID, nextFieldID) {
+	if (currentFieldID.value != '') {
+		$('#'+ nextFieldID).focus();
+	}
+}
+
+function initFormRules(){
+	
+	if( jQuery && jQuery.validator && jQuery.validator.addMethod ) {		
+		jQuery.validator.addMethod("formName", function(value, element) {
+			return this.optional(element) || /^[A-Za-z-.'_, -]+$/i.test(value);
+		},"Please enter valid name");
+	
+		jQuery.validator.addMethod("nickName", function(value, element) {
+			return this.optional(element) || /^[A-Za-z0-9.-_']+$/i.test(value);
+		},"Please enter valid name");
+	
+		jQuery.validator.addMethod("companyName", function(value, element) {
+			if( $("#businesspurchasecheckbox:checked").length <= 0 ){
+				return true;
+			}
+			return this.optional(element) || value.trim().length > 0 || /^[A-Za-z0-9\/\-_+<>?:' ;~`!@#$%^&*()]+$/i.test(value) ;
+		},"Please enter valid company name");
+	
+		jQuery.validator.addMethod("poAddress", function(value, element) {
+				if (value.match(/pobox/gi) || 
+						value.match(/p-o-b-o-x/gi) || 
+						value.match(/po box/gi) || 
+						value.match(/p o box/gi) || 
+						value.match(/p\.o/gi) || value.match(/p,o/gi) || 
+						value.match(/p o(?=\.|\,|\d|\s\d|\-)/gi) || 
+						value.match(/po(?=\.|\,|\d|\s\d|\-)/gi) || 
+						value.match(/box(?=\.|\,|\d|\s\d|\-)/gi) || 
+						value.match(/pob(?=\.|\,|\d|\s\d|\-)/gi) || 
+						value.match(/p\.0/gi) || 
+						value.match(/p,0/gi) || 
+						value.match(/p0(?=\.|\,|\d|\s\d|\-)/gi) || 
+						value.match(/p 0(?=\.|\,|\d|\s\d|\-)/gi) )
+					return false;	
+			return this.optional(element) || /^[A-Za-z0-9-\()\-\,\.\\ ]+$/i.test(value);
+		},"We currently don't ship to P.O. Box addresses. Please use a residential or business address.");
+		
+		jQuery.validator.addMethod("formAddress", function(value, element) {
+			return this.optional(element) || /^[A-Za-z0-9-\()\-\,\.\\ ]+$/i.test(value);
+		},"Please enter valid address.");
+	
+		jQuery.validator.addMethod("formCity", function(value, element) {
+			return this.optional(element) || /^[a-zA-Z ]+$/i.test(value);
+		},"Please enter valid city");
+	
+		jQuery.validator.addMethod("alphanumeric", function(value, element) {
+			return this.optional(element) || /^[A-Z0-9]+$/i.test(value);
+		},"Please enter valid alphanumeric");
+	
+		jQuery.validator.addMethod("partnerName", function(value, element) {
+			return this.optional(element) || /^[A-Z0-9-.'_, ]+$/i.test(value);
+		},"Please enter valid alphanumeric");
+	
+		jQuery.validator.addMethod("lettersonly", function(value, element) {
+			return this.optional(element) || /^[A-Z]+$/i.test(value);
+		},"Please enter valid alphanumeric");
+		
+		window.isFormRulesInitialized = true;
+	}
+}
+
+function initValidateForm( formId, formRules, highlightCallBack,
+		unhighlightCallBack, errorPlacementCallBack, formMessages, formGroups,onKeyUpFlag) {
+	
+	if( formId && formRules ) 
+	{	
+		if( !window.isFormRulesInitialized ) {
+			initFormRules();
+		}
+		
+		var validationConfig = {	
+		  rules: formRules,
+		  highlight : function (element){ 	  
+			$(element).addClass("error");
+			if(highlightCallBack){
+				highlightCallBack.apply(this, arguments);	
+			}
+		  },
+		  errorPlacement: function(error, element) { 
+			  
+		  },
+		  unhighlight : function (element) {			  
+			$(element).removeClass("error");	
+			if(unhighlightCallBack){
+				unhighlightCallBack.apply(this, arguments);		
+			}
+		  },
+		  groups :{},
+		};
+		
+		if( formMessages ){
+			validationConfig.messages = formMessages;
+		}
+		
+		if( onKeyUpFlag == 'false' ){
+			validationConfig.onkeyup = false;
+		}
+		
+		if( errorPlacementCallBack ){
+			validationConfig.errorPlacement = errorPlacementCallBack;
+		}
+		
+		if(formGroups) {
+			validationConfig.groups = formGroups ;
+		}
+		
+		if( $("form#" + formId).length > 0 )
+			$("form#" + formId).validate(validationConfig);
+		else
+			$("form[name=" + formId + "]").validate(validationConfig);
+	}
+}
+
+function getCookie(c) {
+	var cookies = document.cookie.split(";");
+	for (var i = 0; i < cookies.length; i++) {
+		var index = cookies[i].indexOf("=");
+		var name = cookies[i].substr(0,index);
+		name = name.replace(/^\s+|\s+$/g,"");
+		if (name == c) {
+			return unescape(cookies[i].substr(index + 1));
+		}
+	}
+}
+
+function coupon() {
+	$('#addcoupon').show();$('#nocoupon').hide();
+}
+
+/* when ECMASCRIPT6 is supported by all browsers. below method can be exported as modules. 
+ * it currently uses global variable to hold all utility functions */
+window.hpStoreUtils = {
+  ajax : invokeAJAX,
+  getStoreConfig : getDefaultStoreParams,
+  getCartUrls : getCartCommandURLs,
+  toggleConfig : toggleConfig,
+  onMouseToolTip : onMouseToolTip,
+  initValidateForm : initValidateForm,
+  getCheckoutUrls : getCheckoutCommandURLs,
+  getParams : getFormParams,
+  next : moveToNext,
+  getCookie : getCookie,
+  getCallCenterUrls : getCallCenterUrls,
+  focusNext : focusNext
+}

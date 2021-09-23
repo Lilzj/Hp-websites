@@ -1,0 +1,55 @@
+// JavaScript Document
+$(document).ready(function () {
+	var Tabs = can.Control.extend({
+			// initialize widget
+			init : function (el) {
+				// activate the first tab
+				$(el).children('li:first').addClass('active');
+
+				// hide the other tabs
+				var tab = this.tab;
+				this.element.children('li:gt(0)').each(function () {
+					tab($(this)).addClass('out_of_the_scene');
+				});
+			},
+
+			// helper function finds the tab for a given li
+			tab : function (li) {
+				return $(li.find('a').attr('href'));
+			},
+
+			// hides old active tab, shows new one
+			'li click' : function (el, ev) {
+				ev.preventDefault();
+				this.tab(this.element.find('.active').removeClass('active')).addClass('out_of_the_scene');
+				this.tab(el.addClass('active')).removeClass('out_of_the_scene');
+				//updates mobile dropown
+				$("#native_dropdown").val(el.find('a').attr('href'));
+			}
+		});
+
+	// adds the controller to the element
+	new Tabs('#tabs');
+
+	// Mobile select dropdown
+	$($('.slide_tabs_container .tab')[0]).removeClass('out_of_the_scene');
+	// $("select#native_dropdown").selectBoxIt({ autoWidth : false });
+	if (document.documentElement.clientWidth < 801) {
+		Foundation.libs.forms.refresh_custom_select($('#native_dropdown'), true);
+		$("div.customDropDown").removeClass("hidden-field");
+		$("div.customDropDown").show();
+	} else {
+		$("div.customDropDown").hide();
+	}
+
+	$('select.customDropDown').change(function () {
+		if (this.value.indexOf("#tab_") == 0) {
+			$('[id^=tab_]').addClass('out_of_the_scene');
+			$('#tabs').children().removeClass('active');
+			$('#tabs li a[href=' + this.value + ']').closest('li').addClass('active');
+			$(this.value).removeClass('out_of_the_scene');
+		} else {
+			window.location = this.value;
+		}
+	});
+});

@@ -1,0 +1,488 @@
+@charset "utf-8";
+
+#minicart-contents {
+	display: block;
+	font-family: "HPSimplified",arial;
+}
+
+#minicart-container {
+	position:absolute;
+	top:100px;
+	right:-17px;
+	background:#fff;
+	border:2px solid #cccccc;
+	z-index:2000;
+	display:none;
+	width:545px;
+}
+
+#minicart-container .items ul { 
+	margin:0.5em 0 0 0; 
+}
+
+#minicart-container .items ul li { 
+	padding:0.5em 0; 
+	border-bottom:1px solid #e5e8e8; 
+	display:block; 
+	font-size: 1.65em;
+}
+
+#minicart-container .items ul li:last-child { 
+	border:none; 
+	padding-bottom:0; 
+}
+
+#minicart-container .items .minicartTotal { 
+	background:#f2f3f3; 
+}
+
+#minicart-container .items h3 {
+	margin:0;
+	font-weight:100;
+	background:url(../../img/cart.png) no-repeat left;
+	padding-left: 1.5em;
+}
+
+#minicart-container .items .productImage { 
+	width:25%; margin-right:3%; float:left; 
+}
+
+#minicart-container .items .productInfo { 
+	float:left; width:72%; text-align: left;
+}
+
+#minicart-container .items .productInfo h4 { 
+	font-weight:100; 
+	font-size:1.125em; 
+	margin:0; 
+	line-height:1.2em; 
+}
+
+#minicart-container .items .productInfo h5 { 
+	font-weight:normal; 
+	font-size:0.75em; 
+	margin-bottom:0.5em; 
+	color:#767676; 
+}
+#minicart-container .items .price { line-height:1.7em; }
+#minicart-container .items .price_strike { text-decoration: line-through; }
+#minicart-container .items p { font-size:0.95em; color:#000; }
+#minicart-container .minicartTotal { padding:1.2em 1.5em; background:#f2f3f3; }
+#minicart-container .minicartTotal .freeshipping {
+	background:url(../../img/free-ship.png) no-repeat left;
+	padding-left:40px;
+	font-size:1.25em;
+	margin:1.2em 0 0 0;
+	color:#000;
+}
+
+#minicart-container .minicartTotal .large-2 p { 
+	font-size:1.2em; 
+	margin:0.7em 0 0 0; 
+	line-height:normal; 
+	color:#000; 
+}
+
+#minicart-container .minicartTotal .price { 
+	line-height:1em; 
+	margin:0;  
+}
+
+#minicart-container .minicartTotal .price .red { 
+	font-size:2.25em; 
+}
+
+#minicart-container .button-bar { 
+	padding:1.5em; 
+}
+
+#minicart-container .outofstock p { 
+	width:100%; 
+}
+
+#minicart-container .outofstock h5 { 
+	line-height:1em; 
+}
+
+#minicart-container .outofstock input[type="text"] { 
+	margin-bottom:5px; 
+	display:block; 
+	width:150%; 
+}
+
+#minicart-container .uparrow { 
+	position:absolute; 
+	top:-21px;
+	right:95px; 
+}
+
+@-moz-document url-prefix() {
+	#minicart-container .uparrow { 
+		top:-22px;
+	}
+}
+
+#minicart-container .close,div.shopping_container .hf_close_btn {
+	position:absolute;
+	top:10px;
+	right:15px;
+	background:url(../../img/xo_minicart_close_24x24.png) center no-repeat;
+	width:20px;
+	height:20px;
+	display:block;
+	opacity: 0.5;
+}
+
+#minicart-container .close,div.shopping_container .hf_close_btn:hover {
+	opacity: 1.0;
+}
+
+#minicart-container .row { 
+	margin:0; 
+	max-width: 51.5em;
+}
+
+.minicart-count {
+	position:absolute;
+	left:auto;
+	font-size:65%;
+	font-weight:bold;
+	bottom:-0.5em;
+	line-height:normal;
+	background:#f05332;
+	color: #FFFFFF;
+    display: inline-block;
+    font-weight: bold;
+    padding: 0.12em 0.4em;
+}
+
+#minicart-container .items p.no-margin{
+	margin:0em;
+}
+
+#minicart-container .items .bluelink {
+	font-size: 0.95em; 
+	color: rgb(0,150,214);
+}
+
+#minicart-container .items .bluelink:hover {
+	color:rgb(0,125,186);
+}
+
+#minicart-container .items .bluelink.busy {
+	background: rgb(0,125,186) url(../../img/btn-busy-indicator.gif) no-repeat center;
+}
+
+#minicart-container .items .red sup, 
+#minicart-container .minicartTotal .red sup { 
+	top: 0.25em; 
+	font-size: 0.7em;
+}
+
+#minicart-container #minicartOutfstock .items .outofstock h5 {
+	margin: 0em;
+}
+
+#minicart-container #minicartOutfstock .items .outofstock p {
+	line-height: 1.2em; margin-bottom: 1.5em; 
+}
+
+#minicart-container #minicartOutfstock .items .outofstock .redbtn, 
+#minicart-container .button-bar .redbtn {
+	-webkit-border-radius: 0px 5px 0px 5px;
+	-moz-border-radius: 0px 5px 0px 5px;
+	border-radius: 0px 5px 0px 5px;
+	color: #FFFFFF;
+	display: inline-block;
+	font-size: 1.45em;
+	font-weight: bold;
+	line-height: 2.5em;
+	padding: 0 1em;
+	text-align: center;
+	border:0 solid #fff;
+  	background:#d7410b;
+}
+
+#minicart-container .button-bar .bluebtn {
+	-webkit-border-radius: 0px 5px 0px 5px;
+	-moz-border-radius: 0px 5px 0px 5px;
+	border-radius: 0px 5px 0px 5px;
+	color: #FFFFFF;
+	display: inline-block;
+	font-size: 1.45em;
+	font-weight: bold;
+	line-height: 2.5em;
+	padding: 0 1em;
+	text-align: center;
+	border:0 solid #fff;
+}
+
+#minicart-container #minicartOutfstock .items .outofstock .redbtn:hover,
+#minicart-container .button-bar .redbtn:hover { 
+	background:#a74222; 
+	color:#fff; 
+}
+
+#minicart-container #minicartOutfstock .items .outofstock .outofstocklink { 
+	font-size: 0.9em;
+	line-height: 1.2em;
+	margin-bottom: 0.5em;
+	color: rgb(0,150,214);
+}
+
+#minicart-container #minicartOutfstock .items .outofstock .outofstocklinkarea {
+	width:70%;
+}
+
+#minicart-container #minicartOutfstock .items .outofstock .outofstocklink:hover {
+	color:rgb(0,102,153); 
+	cursor: pointer;
+}
+
+#minicart-container #minicartOutfstock .items .outofstock #outofstockemailarea {
+	display: none;
+}
+
+.btn.add2cart-btn.busy, 
+.fullwidthbtn.add2cart-btn.busy,
+.btn.customize-btn.busy {
+	background:#0096D6 url(../../img/btn-busy-indicator.gif) no-repeat center center;
+}
+
+a.btn.add2cart-btn:hover, 
+a.btn.add2cart-btn:focus,
+a.btn.customize-btn:hover, 
+a.btn.customize-btn:focus {
+    color: #ffffff;
+}
+  
+#minicart-container .button-vendor {
+ 	float: right;
+ 	margin: 10px 10px 10px 0;
+}
+
+#minicart-container .button-bar {
+  	float: right;
+  	margin: 5px 20px 10px 0;
+  	padding: 0;
+}
+
+.text-right {
+  	text-align: right !important;
+}
+
+#minicart-container .minicartTotal {
+  	padding: 1.2em 1.5em;
+  	background: #f2f3f3;
+}
+
+#minicart-container .row {
+  	margin: 0;
+}
+
+#minicart-container .minicartTotal .columnSubText p.subtotal {
+  	font-size: 18px;
+  	line-height: 0.65em;
+}
+
+#minicart-container .minicartTotal .freeshipping, #minicart-container .minicartTotal .large-2 p {
+  	margin: 0;
+}
+
+#minicart-container .minicartTotal .columnSubText p.subtotal span.subtTotalNotes {
+  	color: #787878;
+  	font-size: 12px;
+}
+
+.minicart-itemcount {
+  	padding: 0 5px;
+  	top: 20px;
+  	right: 15px; 	
+  	position: absolute;
+    background-color: #FF0000;
+    color: #FFF;
+    font-size: 100%;
+    font-weight: bold;
+    border-radius: 0 3px;
+    line-height: 14px;
+}
+
+#minicart-container ul li ul, ul li ol {
+	font-size: 1.65em;
+} 
+
+#minicart-contents #items-header {
+	display: inline-flex;
+}
+
+#minicart-contents #items-header .details {
+	margin-left: 10px;
+}
+
+#minicart-summary .price_amount {
+	font-size: 3.5em;
+}
+
+#minicart-summary .price_amount sup {
+	top: 6px;
+}
+
+.vAll {
+	font-size:1.7em;
+}
+
+.vAll.minicart {
+	margin-top: 15px;
+} 
+
+.alert-box {
+    background: #0094D6 url(../../img/basket-success-icon.png) 20px center no-repeat;
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+}
+
+.alert-box .close {
+	line-height:inherit;
+}
+
+#navigation {
+    height: 65px;
+    background-color: #FFFFFF;
+    padding: 0px;
+    z-index: 100;
+}
+
+.tiptext {
+	padding: 0px 0px 0px 0px;
+}
+
+.tooltip_element {
+	margin: 10px 10px;
+}
+
+.relativewrap {
+    z-index: 1;
+}
+.gmpoints {
+	line-height:normal;
+	color:#00A000;
+	font-size:0.75em;
+	font-weight:normal;
+	white-space:nowrap;
+	display: block;
+}
+.inventorycount {
+	color: maroon;
+	font-size: 12px;
+	font-weight: normal;
+	display: block;
+}
+@media only screen and (max-width: 800px) {
+	#minicart-container .items h2 {
+		font-size:2.0em;
+	}
+	#minicart-container .uparrow {
+		right: 55px;
+	}
+}
+
+/* START section to override styles in other css files here */
+nav .topmenu ul li {
+	display:inline; 
+	list-style:none; 
+	float:left; 
+	padding-right: 14px;
+	margin-right:10px;
+}
+
+nav .topmenu ul li.psn {
+	padding-right: 0px; 
+}
+nav .topmenu ul li.psn:after {
+	content: "|";
+	width: 2px;
+	display: block;
+	float: right;
+	padding-left: 13px;
+	margin-left: 10px;
+	color: #cdcdcd;
+}
+
+nav .topmenu ul li.psn img {
+    width: 18px;
+    vertical-align: text-top;
+}
+
+@media screen and (max-width: 736px) {
+	div#winSideBar { display:none; }		
+}
+#header.header .hp_logo a.hf_logo, #header.header .hp_logo a.hf_logo:visited,#navigation.header .hp_logo a.hf_logo, #navigation.header .hp_logo a.hf_logo:visited {
+	margin-bottom: 0px;
+}
+#navigation.header .hp_logo a.hf_logo, #navigation.header .hp_logo a.hf_logo:visited {
+	margin-left: 0px;
+}
+#navigation.header .hp_logo img {
+	max-height: 60px;
+}
+#header.header {z-index:90;}
+.reveal-modal-bg {z-index: 101 !important;}
+.reveal-modal {z-index: 102 !important;}
+div#utilityNav {
+	max-width: 100%;
+	z-index: 101;
+	background: #FFF;
+	position: relative;
+	border-bottom: 1px solid #F2F2F2;
+}
+div#utilityNav .login-container {
+	max-width: 1280px;
+}
+div#utilityNav .login-container#ppPendingDisplay{
+	padding: 0 0 0 30px;
+}
+div#footer .worldmap .country_holder li a, div#footer .worldmap .country_holder li a:link {
+	font-size: 150%;
+}
+.header .left_corner {
+	display:none;
+}
+.header .top_corner {
+    right: 30px;
+}
+.header .search_block {
+	top: -258px !important;
+}
+.header .submenu{
+	top: -224px !important;
+}
+.header .submenu[data-state="open"] {
+    -moz-transform: translateY(296px) !important;
+    -ms-transform: translateY(296px) !important;
+    -webkit-transform: translateY(296px) !important;
+    transform: translateY(296px) !important;
+}
+.header .search_block[data-state="open"] {
+    moz-transform: translateY(330px) !important;
+    -ms-transform: translateY(330px) !important;
+    -webkit-transform: translateY(330px) !important;
+    transform: translateY(330px) !important;
+}
+ul.lastBox.topmenuchild {
+	z-index: 100001;
+}
+div.swiper {
+	display: none;
+}
+.header .close {
+	top: 0 !important;
+	right: 0 !important;
+}
+
+.header #minicart-summary, #minicart-container .minicartTotal {
+	box-sizing: content-box !important;
+}
+/* END section to override styles in other css files here */
+
+.xo_minicart .productrow.recentlyAdded .mcprodname { width: 85%; }

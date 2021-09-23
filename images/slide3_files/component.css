@@ -1,0 +1,107 @@
+.login-container *:before, .login-container *:after { -moz-box-sizing: border-box; } 
+
+/* Adjust margin for form elements below */ 
+.login-container input[type="file"], .login-container input[type="checkbox"], .login-container input[type="radio"], select { margin: 0 0 1em 0; }
+
+/* Normalize file input width */ 
+.login-container input[type="file"] { width: 100%; }
+
+.contenedor { float: right; min-height: 400px; overflow: hidden; position: absolute; width: 300px; } 
+button.dl-trigger {margin-bottom:0;} 
+ul.dl-submenu {margin-left:0;} 
+.dl-menuopen {z-index:9797;} 
+#featuredaccessories.talkingAbout ul li h3 {overflow:hidden;}
+
+/*Compare*/ 
+#compare-body .product-card h3 { padding-top: 0; height: 2.8em; overflow: hidden; } 
+.desktop .large-4 .item1 h3 { height: 2.1em; overflow: hidden; } 
+#accessoriesfinder #featuredaccessories ul li h3 { height: 2.8em; overflow: hidden; } .securecheckoutorderconfirmation .featureaccessories #content .product-card h3 { height: 2.8em; overflow: hidden; } 
+#featuredLaptops ul li h3, #featuredTablets ul li h3, #featuredPrinters ul li h3 {width:auto;}
+
+#storenav.minified .slidercolumn {width:96.5%;}
+
+@media only screen and (min-width: 801px) and (max-width: 1024px){ 
+#storenav.minified {} 
+#storenav.minified .bx-viewport li {} 
+#storenav.minified .bx-viewport li + li:before { color: #CDCDCD; content: "|"; display: block; float: left; left: -20px; position: absolute; } 
+#storenav.minified .nextcolumn { position: absolute; right: 69px; top: 1px; width: 7%; } #storenav.minified .storenav-item-6 {display: none;} 
+#storenav.minified .storenav-item-7 {display: none;} 
+#storenav.minified .storenav-item-8 {display: none;} 
+#storenav.minified .storenav-item-9 {display: none;} 
+#storenav.minified .storenav-item-10 {display: none;}
+#storenav.minified .storenav-item-11 {display: none;} 
+#storenav.minified .storenav-item-12 {display: none;} 
+#storenav.minified .storenav-item-13 {display: none;} 
+#storenav.minified .storenav-item-14 {display: none;} 
+#storenav.minified .storenav-item-15 {display: none;} 
+#storenav.minified .storenav-item-16 {display: none;} 
+#storenav.minified .storenav-item-17 {display: none;} 
+}
+
+nav .topmenu ul { margin-top: 0px; } 
+.login-container ul li.tmHover ul.topmenuchild { display: block; } 
+.login-container ul li.tmHover #loginBox.openLogin { display: block; } 
+.login-container ul li ul { display: block; margin: 0 0 0 13px; position: absolute; border:solid 1px #cecece; background-color:#fff; padding: 5px 15px; width:169px; z-index:99; } .login-container ul li ul.lastBox { right:0; }
+
+nav .topmenu ul li ul li{ margin:0; line-height:1.2em; color:#767676; font-weight:400; display:block; width:100%; border-top: 1px solid #CECECE; } 
+nav .topmenu ul li ul li:first-child { border-top: medium none; } 
+nav .topmenu ul li a { color: #0096d6; cursor:pointer; } 
+nav .topmenu ul li.tmHover a { color: #006699; } 
+nav .topmenu ul li.tmHover .loginformSection a:hover { text-decoration:underline; } 
+nav .topmenu ul li.tmHover a#logintToHP:hover { text-decoration:none; } 
+nav .topmenu ul li.tmHover a.selected{ color: #cccccc; } 
+nav .topmenu ul li ul li a{display:inline-block; width:100%; cursor:pointer; padding: 10px 0; } nav .topmenu ul li ul li a:hover{text-decoration:underline; color:#0096D6; } 
+nav .topmenu ul li ul li a.selected{text-decoration:none; cursor:default;} 
+nav .topmenu ul li ul li .textContainer{padding: 10px 0; } 
+.topmenu { position: relative; } 
+#loginBox { display: none; } 
+.topmenu ul { font-size: 13px; } 
+nav .topmenu ul li ul li, .loginformSection, .loginformSection label, .loginformSection p {font-size:13px;}
+
+a.downDisclosure{ background: url("../img/top-menu-disclosure-blue.png") no-repeat scroll 100% center; } 
+.topmenu li.tmHover a.downDisclosure, .topmenu li a.downDisclosure:hover{ background: url("../img/top-menu-disclosure-blue.png") no-repeat scroll 100% center; } 
+.topmenu li a.mainLink:hover{ color: #006699;} 
+nav .topmenu ul li.tmHover a.downDisclosure span{ background-position: 0px -16px; } 
+nav .topmenu ul li a.downDisclosure {padding-right:14px;} 
+
+nav .topmenu ul li.lastIteminList { margin-right: 6px; } 
+#loginBox { background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #CECECE; position: absolute; width: 290px; z-index: 102; right:0; } 
+.loginformSection {padding: 15px;}
+
+.loginWarning {display:none;} 
+.loginWarning { background: none repeat scroll 0 0 #F7D7D8; padding: 10px 15px; } #logingWarningArea > p { color: #C60F13; margin-bottom: 0; } 
+.loginformSection input, .loginformSection input:focus { box-shadow:none; background-color: #FFFFFF; } 
+.loginformSection input:focus { border: 1px solid #000;} 
+.loginformSection input.error { background-color: #FFFFFF; } 
+.loginformSection label {color:#767676;}
+
+/*Label*/ .loginformSection .error label, .loginformSection label.error { color: #C60F13; } /*Placeholder*/ .loginformSection input::-webkit-input-placeholder { color: #fff; } .loginformSection input:-moz-placeholder { /* Firefox 18- */ color: #fff; } .loginformSection input::-moz-placeholder { /* Firefox 19+ */ color: #fff; } .loginformSection input:-ms-input-placeholder { color: #fff; } 
+
+.loginformSection input.error::-webkit-input-placeholder { color: #C60F13; } .loginformSection input.error:-moz-placeholder { /* Firefox 18- */ color: #C60F13; } .loginformSection input.error::-moz-placeholder { /* Firefox 19+ */ color: #C60F13; } .loginformSection input.error:-ms-input-placeholder { color: #C60F13; }
+
+nav .topmenu ul li .forgotPasswordText {float:left; color:#0096d6; } 
+.loginArea{ background-color: #0096d6; border-bottom-left-radius: 0.4em; border-top-right-radius: 0.4em; cursor: pointer; clear:both; float: right; font-size: 0.9em; margin-bottom:1.5em; padding: 0.45em 2.5em; } 
+.loginArea:hover{ background-color:#006599; } 
+nav .topmenu ul li .loginArea a {color:#fff; font-size:1.2em;} 
+.newUserText { float: left; padding-right: 0.5em; } 
+.topmenu ul li ul { display: none; margin: 0 !important; } 
+
+nav .topmenu ul { margin-bottom: 0px; line-height:29px; padding-top:1px; margin-right:14px; } 
+
+nav .topmenu ul li * { line-height:29px; } 
+.loginStorenavGroup {background-color:#fff;} 
+.loginStorenavGroup #storeSlider { top: 12px; } 
+.loginStorenavGroup #storeSlider {top:0px;} 
+
+@media only screen and (min-width: 801px) and (max-width: 1024px){
+nav .topmenu ul {margin-right:-40px; } 	
+.loginStorenavGroup #storeSlider {top:0px;} } 
+
+.topmenu {visibility: visible;} .header-container { height: auto; } 
+
+/* Code afte H/F i*/ 
+#storenav .caption { text-align: center !important; } 
+.header-container * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; } 
+.login-container input[type="text"], .login-container input[type="password"], .login-container input[type="date"], .login-container input[type="datetime"], .login-container input[type="datetime-local"], .login-container input[type="month"], .login-container input[type="week"], .login-container input[type="email"], .login-container input[type="number"], .login-container input[type="search"], .login-container input[type="tel"], .login-container input[type="time"], .login-container input[type="url"], textarea { background-color: white; font-family: inherit; color: rgba(0, 0, 0, 0.75); display: block; font-size: 0.875em; margin: 0 0 1em 0; padding: 0.5em; height: 2.3125em; width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; border: 1px solid #cccccc; } 
+
+input, textarea, keygen, select, button {border-radius:0; -webkit-appearance:none;}
